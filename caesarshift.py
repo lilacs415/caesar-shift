@@ -2,11 +2,18 @@ import pytest
 
 
 val_to_let = lambda letter_vals: ''.join([chr(val) for val in letter_vals])
+# takes a list of integers (representing ASCII values) and returns a string of the ASCII characters of those values
 
 
 def caesar_shift(words, shift):
     """
-    where words is a list of strings of text to shift
+    Shifts words by a certain number, encoding plaintext with the Caesar cipher.
+
+    Parameters: words: a list of strings, the plaintext to shift
+                shift: an integer of how many spots to shift the plaintext by
+    
+    Returns: if only words are inputted, a string of the shifted words, with spaces in between each word
+             otherwise, a message asking for only words to be given to the caesar_shift function
     """
     shift = shift % 26
     numbers = []
@@ -23,11 +30,14 @@ def caesar_shift(words, shift):
                         numbers.append(64 + (ord(letter) + shift) - 90)
                     else:
                         numbers.append(ord(letter) + shift)
-            numbers.append(32)
+            numbers.append(32) # add a space in between each word
     return val_to_let(numbers).strip() if numbers else "Please input only words into the shifter."
 
 
 def test_answer():
+    """
+    Basic tests for the caesar_shift function. Does not test the REPL.
+    """
     assert caesar_shift(['hello', 'world'], 2) == 'jgnnq yqtnf'
     assert caesar_shift(['xyz'], 2) == 'zab'
     assert caesar_shift(['XYZ'], 2) == 'ZAB'
