@@ -8,20 +8,19 @@ def caesar_shift(words, shift):
     """
     where words is a list of strings of text to shift
     """
-    if shift > 25:
-        return 'Please enter a shift number between 1 and 25, inclusive.'
+    shift = shift % 26
     numbers = []
     for word in words:
         if word.isalpha():
             for letter in word:
                 if letter.islower():
                     if ord(letter) + shift > 122:
-                        numbers.append(98 + (shift - (122 - ord(letter) + shift)))
+                        numbers.append(96 + (ord(letter) + shift) - 122)
                     else:
                         numbers.append(ord(letter) + shift)
                 else:
                     if ord(letter) + shift > 90:
-                        numbers.append(66 + (shift - (90 - ord(letter) + shift)))
+                        numbers.append(64 + (ord(letter) + shift) - 90)
                     else:
                         numbers.append(ord(letter) + shift)
             numbers.append(32)
@@ -42,7 +41,7 @@ if __name__ == "__main__":
         """
         Creates a REPL that the user can interact with.
         """
-        print('To use this tool, please enter an "encode" or "decode" command, then your text, then if applicable the shift number.')
+        print('To use this tool, please enter an "encode" or "decode" command, then your text, then the shift number.')
         user_input = input('input: ')
         while user_input != 'exit':
             raw_inputs = user_input.split()
@@ -53,7 +52,7 @@ if __name__ == "__main__":
                 else:
                     print('Error: please provide a shift number after the text you would like to encode.')
             elif inputs[0] == 'decode':
-                print("output: ", caesar_shift(inputs[1], 25 - int(inputs[2])))
+                print("output: ", caesar_shift(inputs[1], 26 - int(inputs[2])))
             else:
                 print('Error: please precede your text with an "encode" or "decode" command.')
             user_input = input('input: ')
